@@ -1,0 +1,12 @@
+{
+  "name": "poop-tracker",
+  "version": "1.0.0",
+  "description": "今天你拉了吗？— 趣味肠道打卡 + 匿名搭子（单 Node 服务同时托管前端与 API）",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

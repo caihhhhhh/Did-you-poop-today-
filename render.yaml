@@ -1,0 +1,15 @@
+# Render 一键部署配置
+# 在 Render Dashboard 选择 “New +” → “Web Service” → 连接本仓库，Render 会自动读取此文件并部署。
+services:
+  - type: web
+    name: poop-tracker
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: ""          # 纯 Node 内置模块，无需安装依赖，构建为空
+    startCommand: node server.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # 注意：PORT 由 Render 自动注入，server.js 用 process.env.PORT || 3000 读取，无需在此指定。

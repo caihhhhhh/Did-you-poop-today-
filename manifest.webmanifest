@@ -1,0 +1,20 @@
+{
+  "name": "今天你拉了吗？",
+  "short_name": "拉了吗",
+  "description": "一个零注册、纯好玩的肠道打卡小玩具：一键打卡、连续天数成就、匿名搭子互踩、梗图盲盒与今日肠道运势。",
+  "lang": "zh-CN",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF7F0",
+  "theme_color": "#FF6B35",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
