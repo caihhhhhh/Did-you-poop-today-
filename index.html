@@ -212,6 +212,49 @@ h1,h2,h3,p{margin:0;} ul{margin:0;padding:0;list-style:none;}
 .guide-bubble::after{content:"";position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);border:10px solid transparent;border-top-color:var(--text);border-bottom:0;}
 .guide-bubble button{margin-top:var(--space-2);color:var(--primary-deep);font-weight:700;}
 .trend-chips{display:flex;gap:var(--space-2);margin-top:var(--space-4);justify-content:space-between;} .tchip{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface-sunken);border-radius:var(--radius-md);padding:var(--space-3) 4px;min-height:92px;justify-content:center;} .tchip .art{width:48px;height:48px;display:grid;place-items:center;font-size:28px;} .tchip.empty .art{color:var(--neutral-400);} .tchip .day{font-size:var(--fs-xs);color:var(--text-muted);font-weight:600;} .tchip .day.today{color:var(--primary-deep);}
+/* ========================================================== 99. 响应式：自动适配 手机 / 平板 / 电脑
+   原则：移动端保持原样（移动优先），宽屏渐进增强。容器随视口逐级放宽，
+   所有依赖 --container-max 的元素（手机画布/底部栏/弹层/吐司）同步缩放。 */
+@media (min-width:640px){ :root{ --container-max:600px; --page-x:24px; } }
+@media (min-width:900px){ :root{ --container-max:840px; --page-x:28px; } }
+@media (min-width:1200px){ :root{ --container-max:1000px; --page-x:32px; } }
+
+/* 桌面：底部栏变悬浮胶囊，更像原生 App（tabbar 无 transform 动画，可安全改写） */
+@media (min-width:640px){
+  .tabbar{ left:50%; right:auto; transform:translateX(-50%); width:min(440px,var(--container-max)); border-radius:var(--radius-full); bottom:var(--space-4); height:auto; padding:6px; box-shadow:var(--shadow-md); }
+  .tabbar .tab{ border-radius:var(--radius-full); }
+  .guide{ padding-bottom:calc(var(--tabbar-h) + var(--safe-b) + 96px); }
+}
+
+/* 宽屏：首页两栏（左=标题+打卡，右=运势+快捷），纯 CSS 重排现有子元素 */
+@media (min-width:860px){
+  #screen-home{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); column-gap:var(--space-8); align-items:start; padding-top:var(--space-4); }
+  .home-head{ grid-column:1 / -1; }
+  .home-hero{ grid-column:1; grid-row:2; }
+  .checkin-wrap{ grid-column:1; grid-row:3; margin:var(--space-6) 0 var(--space-4); }
+  .checkin-hint{ grid-column:1; grid-row:4; }
+  #home-done{ grid-column:1; grid-row:4; }
+  .fortune-mini{ grid-column:2; grid-row:2; margin-top:0; }
+  .mini-acts{ grid-column:2; grid-row:3; display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); }
+  /* 桌面不放大打卡按钮，保持与手机一致的视觉重心 */
+  .checkin-wrap .checkin{ width:180px; height:180px; }
+  .checkin-wrap .checkin .emo{ font-size:48px; }
+  .checkin-wrap .checkin .txt{ font-size:22px; }
+  /* 避免右侧运势/操作被抻得太宽 */
+  .fortune-mini,.mini-acts{ max-width:420px; justify-self:start; }
+}
+
+/* 网格在宽屏变多列 + 图表加粗 */
+@media (min-width:640px){
+  .bristol-grid{ grid-template-columns:repeat(4,1fr); }
+  .ach-grid{ grid-template-columns:repeat(3,1fr); }
+  .chart .bar{ max-width:44px; }
+  .sheet{ max-width:min(640px,var(--container-max)); }
+  .modal-panel{ max-width:440px; }
+}
+@media (min-width:900px){
+  .ach-grid{ grid-template-columns:repeat(4,1fr); }
+}
 </style>
 </head>
 <body>
