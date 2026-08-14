@@ -1,5 +1,5 @@
-// Service Worker — 缓存应用外壳，离线可打卡
-const CACHE = 'poop-tracker-v1';
+// Service Worker — 缓存应用外壳，离线可打卡（v2）
+const CACHE = 'poop-tracker-v2';
 const SHELL = [
   '.',
   'index.html',
@@ -22,13 +22,13 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   const url = new URL(req.url);
-  // API 请求：绝不缓存，始终走网络（避免踩/状态等动态响应被 stale 缓存）
-  if (url.pathname.startsWith('/api/')) {
+  // API / 健康检查 / 埋点：绝不缓存，始终走网络
+  if (url.pathname.startsWith('/api/') || url.pathname === '/healthz' || url.pathname === '/e') {
     e.respondWith(fetch(req));
     return;
   }
   if (req.method !== 'GET') return;
-  // 外壳走 cache-first；其余 network-first 失败回缓存
+  // 外壳走 cache-first（秒开，抗 Render 冷启动）；其余 network-first 失败回缓存
   e.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
